@@ -1,0 +1,115 @@
+//Binary and decimal converter
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+
+void B2D()
+{
+    char binary[99];
+    char *ptr=binary;
+    int a, size=0, decimal=0;
+
+    printf("\nInput Binary Value (Max 99 Bits)\n");
+    scanf("%s",binary);
+    //Input value
+
+    while (*ptr)
+    {
+        if ((*ptr!='1')&&(*ptr!='0'))
+        {
+            size=0;
+            printf("Invalid Input (non-binary input)");
+            break;
+        }//Ensures only binary values are accepted
+
+        size++; //Finds length of string
+        *ptr++;
+    }
+
+    a=size;
+
+    if (size>0)
+    {
+        for (int position=0;position<size;position++)
+        {
+            if (binary[position]=='1')
+            {
+                decimal+=pow(2,a-1);
+            }
+            a--;
+        } //Calculated decimal equivilant
+
+        printf("\nThe Decimal Value is %d",decimal); //Displays final answer
+    }
+}
+
+void D2B()
+{
+    int decimal,position=0,hold,a,b,size=0;
+    char binary[99]="0";
+    char *ptr=binary;
+
+    printf("\nInput Decimal Value\n");
+    scanf("%d",&decimal);
+    //Input value
+
+    while (decimal>0)
+    {
+        if (decimal%2==1)
+            binary[position]='1';
+        else
+            binary[position]='0';
+
+        position++;
+
+        decimal=decimal/2;
+    } //Translates to binary array (order is reversed)
+
+    while (*ptr)
+    {
+        size++;
+        *ptr++;
+    } //finds length of array
+
+    for (a=0;a<(size/2);a++)
+    {
+        b=size-(a+1);
+        hold=binary[a];
+        binary[a]=binary[b];
+        binary[b]=hold;
+    } //reverses array
+
+    printf("\nThe Binary Value is %s",binary); //displays final answer
+}
+
+void menu()
+{
+    int selection;
+
+    printf("Choose Function:\n");
+    printf("\n1.\tBinary to Decimal\n2.\tDecimal to Binary\n\n");
+    printf("Your selection: ");
+    //Display both functions
+
+    scanf("%d",&selection);
+
+    switch (selection)
+    {
+    case 1:
+        B2D();
+        break;
+    case 2:
+        D2B();
+        break;
+    default:
+        printf("\nInvalid Input\n\n");
+        menu();
+        break;
+    }//Choose between functions
+}
+
+int main()
+{
+    menu();
+    return 0;
+}
